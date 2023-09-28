@@ -1,3 +1,39 @@
 <resources>
     <dimen name="fab_margin">16dp</dimen>
+
+    <dimen name="text_size_x_small">10sp</dimen>
+    <dimen name="text_size_small">12sp</dimen>
+    <dimen name="text_size">14sp</dimen>
+    <dimen name="text_size_medium">16sp</dimen>
+    <dimen name="text_size_big">18sp</dimen>
+    <dimen name="text_size_label">20sp</dimen>
+    <dimen name="text_size_title">24sp</dimen>
+    <dimen name="text_size_toolbar">20sp</dimen>
+    <dimen name="text_size_caption">13sp</dimen>
+    <dimen name="text_size_cardview">12sp</dimen>
+    <dimen name="text_size_dialog">25sp</dimen>
+    <dimen name="text_size_dialog_title">35sp</dimen>
+
+    <dimen name="dialog_corner_radius">16dp</dimen>
+    <dimen name="dialog_elevation">0dp</dimen>
+    <dimen name="dialog_wizard_padding">32dp</dimen>
+    <dimen name="dialog_icon_check_size">100dp</dimen>
+    <dimen name="margin_big_duo_max">64dp</dimen>
+    <dimen name="margin_big_duo">32dp</dimen>
+    <dimen name="margin_big">16dp</dimen>
+    <dimen name="margin_medium">12dp</dimen>
+    <dimen name="margin_small">8dp</dimen>
+    <dimen name="margin_x_small">4dp</dimen>
+
+    <dimen name="padding_big_duo">32dp</dimen>
+    <dimen name="padding_big">16dp</dimen>
+    <dimen name="padding_medium">8dp</dimen>
+    <dimen name="padding_small">4dp</dimen>
+    <dimen name="padding_small_m">2dp</dimen>
+
+    <dimen name="elevation_x_small">2dp</dimen>
+    <dimen name="elevation_small">4dp</dimen>
+    <dimen name="elevation_medium">8dp</dimen>
+    <dimen name="elevation_big">12dp</dimen>
+
 </resources>

@@ -5,7 +5,7 @@ import com.fasterxml.jackson.annotation.JsonProperty
 data class NowPlayingDto(
     val dates: RangeDate,
     val page: Long,
-    val results: List<Movie>,
+    val movies: List<Movie>,
     @JsonProperty("total_pages")
     val totalPages: Long,
     @JsonProperty("total_results")
