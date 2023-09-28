@@ -6,7 +6,7 @@ plugins {
 }
 
 android {
-    namespace = "pl.daniel.services"
+    namespace = "pl.daniel.tokenprovider"
     compileSdk = "${rootProject.extra["compileSdkVersion"]}".toInt()
 
     defaultConfig {
@@ -32,14 +32,12 @@ android {
 }
 
 dependencies {
-    implementation(project(":core:tokenprovider"))
+
     implementation("androidx.core:core-ktx:${rootProject.extra["coreKtxVersion"]}")
     implementation("androidx.appcompat:appcompat:${rootProject.extra["appcompatVersion"]}")
     implementation("com.google.android.material:material:${rootProject.extra["materialVersion"]}")
     implementation("com.google.dagger:hilt-android:${rootProject.extra["hiltPluginVersion"]}")
     kapt("com.google.dagger:hilt-android-compiler:${rootProject.extra["hiltPluginVersion"]}")
-    api("com.squareup.retrofit2:retrofit:2.9.0")
-    api("com.squareup.retrofit2:converter-jackson:2.9.0")
     testImplementation("com.squareup.okhttp3:okhttp:5.0.0-alpha.3")
     implementation("com.squareup.okhttp3:logging-interceptor:5.0.0-alpha.11")
     testImplementation("junit:junit:4.13.2")

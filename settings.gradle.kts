@@ -17,3 +17,4 @@ rootProject.name = "MovieApp"
 include(":app")
 include(":core")
 include(":core:services")
+include(":core:tokenprovider")
