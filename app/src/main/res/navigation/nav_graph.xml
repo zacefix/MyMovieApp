@@ -9,17 +9,28 @@
         android:id="@+id/FirstFragment"
         android:name="pl.daniel.zar.movies.MoviesFragment"
         android:label="@string/movie_fragment_label"
-        tools:layout="@layout/fragment_first">
+        tools:layout="@layout/fragment_movies">
 
         <action
             android:id="@+id/action_FirstFragment_to_SecondFragment"
-            app:destination="@id/SecondFragment" />
+            app:destination="@id/SecondFragment" >
+
+            <argument
+                android:name="movie"
+                app:argType="pl.daniel.services.data.Movie" />
+
+        </action>
+
     </fragment>
     <fragment
         android:id="@+id/SecondFragment"
         android:name="pl.daniel.zar.details.DetailsMovieFragment"
         android:label="@string/details_fragment_label"
-        tools:layout="@layout/fragment_second">
+        tools:layout="@layout/fragment_description">
+
+        <argument
+            android:name="movie"
+            app:argType="pl.daniel.services.data.Movie" />
 
         <action
             android:id="@+id/action_SecondFragment_to_FirstFragment"

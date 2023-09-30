@@ -2,4 +2,9 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+
+    <!--progerssBar colors-->
+    <color name="progressBarOne">#673AB7</color>
+    <color name="progressBarTwo">#4F2699</color>
+    <color name="progressBarThree">#351176</color>
 </resources>

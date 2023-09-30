@@ -27,7 +27,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/margin_big"
-            android:hint="Wyszukaj"
+            android:hint="@string/search"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
@@ -61,9 +61,8 @@
                 android:clipChildren="false"
                 android:clipToPadding="false"
                 android:orientation="vertical"
-                android:paddingTop="@dimen/padding_medium"
-                tools:listitem="@layout/movie_item"
-                tools:visibility="visible" />
+                android:padding="@dimen/margin_big"
+                tools:listitem="@layout/movie_item" />
 
         </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 

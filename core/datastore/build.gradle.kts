@@ -6,7 +6,7 @@ plugins {
 }
 
 android {
-    namespace = "pl.daniel.tokenprovider"
+    namespace = "pl.daniel.datastore"
     compileSdk = "${rootProject.extra["compileSdkVersion"]}".toInt()
 
     defaultConfig {
@@ -38,8 +38,8 @@ dependencies {
     implementation("com.google.android.material:material:${rootProject.extra["materialVersion"]}")
     implementation("com.google.dagger:hilt-android:${rootProject.extra["hiltPluginVersion"]}")
     kapt("com.google.dagger:hilt-android-compiler:${rootProject.extra["hiltPluginVersion"]}")
-    testImplementation("com.squareup.okhttp3:okhttp:${rootProject.extra["okhttpVersion"]}")
-    implementation("com.squareup.okhttp3:logging-interceptor:${rootProject.extra["okhttpVersion"]}")
+    implementation("androidx.datastore:datastore-core:1.0.0")
+    implementation("androidx.datastore:datastore-preferences:1.0.0")
     testImplementation("junit:junit:${rootProject.extra["junitVersion"]}")
     androidTestImplementation("androidx.test.ext:junit:${rootProject.extra["junitExtVersion"]}")
     androidTestImplementation("androidx.test.espresso:espresso-core:${rootProject.extra["espressoVersion"]}")

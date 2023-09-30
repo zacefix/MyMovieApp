@@ -1,26 +1,31 @@
 package pl.daniel.zar.movies
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.asLiveData
 import androidx.navigation.fragment.findNavController
-import pl.daniel.zar.R
-import pl.daniel.zar.databinding.FragmentFirstBinding
+import androidx.recyclerview.widget.LinearLayoutManager
+import dagger.hilt.android.AndroidEntryPoint
+import pl.daniel.zar.base.BaseFragment
+import pl.daniel.zar.databinding.FragmentMoviesBinding
 
-class MoviesFragment : Fragment() {
+@AndroidEntryPoint
+class MoviesFragment : BaseFragment() {
 
-    private var _binding: FragmentFirstBinding? = null
-
+    private var _binding: FragmentMoviesBinding? = null
     private val binding get() = _binding!!
+    private val viewModel: MoviesViewModel by viewModels()
+    private lateinit var movieContentsAdapter: MovieContentsAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
 
-        _binding = FragmentFirstBinding.inflate(inflater, container, false)
+        _binding = FragmentMoviesBinding.inflate(inflater, container, false)
         return binding.root
 
     }
@@ -28,9 +33,51 @@ class MoviesFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-//        binding.buttonFirst.setOnClickListener {
-//            findNavController().navigate(R.id.action_FirstFragment_to_SecondFragment)
-//        }
+        setupObservables()
+        setup()
+    }
+
+    private fun setupAdapter() {
+        movieContentsAdapter = MovieContentsAdapter(requireContext()) {
+            findNavController().navigate(
+                MoviesFragmentDirections.actionFirstFragmentToSecondFragment(
+                    it
+                )
+            )
+        }
+        binding.rvMovies.adapter = movieContentsAdapter
+        binding.rvMovies.layoutManager = LinearLayoutManager(context)
+    }
+
+    private fun setup() {
+        viewModel.getMovies()
+        binding.srlRefreshCarriers.setOnRefreshListener {
+            binding.srlRefreshCarriers.isRefreshing = false
+            viewModel.refreshMovies()
+        }
+
+    }
+
+    private fun setupObservables() {
+        setupAdapter()
+        viewModel.movieState.asLiveData().observe(viewLifecycleOwner) { state ->
+            when (state) {
+                is MovieState.Loading -> showLoadingBar(true)
+                is MovieState.Success -> {
+                    with(state) {
+                        movieContentsAdapter.setItems(content.movies, idFavorite)
+                    }
+                    showLoadingBar(false)
+                }
+
+                is MovieState.Error -> {
+                    showLoadingBar(false)
+                    showErrorSnackBar(state.trouble)
+                }
+
+                is MovieState.Start -> Unit
+            }
+        }
     }
 
     override fun onDestroyView() {
