@@ -9,7 +9,7 @@ data class Movie
     @JsonProperty("adult")
     val adult: Boolean = false,
     @JsonProperty("backdrop_path")
-    val backdropPath: String,
+    val backdropPath: String?,
     @JsonProperty("genre_ids")
     val genreIds: List<Long>,
     @JsonProperty("id")
@@ -23,7 +23,7 @@ data class Movie
     @JsonProperty("popularity")
     val popularity: Double,
     @JsonProperty("poster_path")
-    val posterPath: String,
+    val posterPath: String?,
     @JsonProperty("release_date")
     val releaseDate: String,
     @JsonProperty("title")

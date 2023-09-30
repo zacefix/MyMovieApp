@@ -7,7 +7,7 @@ import javax.inject.Inject
 class MovieRepository @Inject constructor(
     private val moviesService: MoviesService
 ) {
-    suspend fun loadNowPlaying(page: Int): Result<NowPlayingDto> {
+    suspend fun loadNowPlaying(page: Long): Result<NowPlayingDto> {
 
         return try {
             Result.success(moviesService.nowPlaying(page))

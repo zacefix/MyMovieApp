@@ -1,5 +1,6 @@
 package pl.daniel.zar.movies
 
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -18,23 +19,31 @@ class MoviesViewModel @Inject constructor(
     private val preferencesDataStoreService: PreferencesDataStoreService
 ) : ViewModel() {
 
-    var isFavorite = MutableStateFlow(0L)
     var searchValue = MutableLiveData<String?>(null)
     var movies: MutableList<Movie> = mutableListOf()
+    var page: Long = 0
+    var totalPages: Long = 1
 
     private val _movieState: MutableStateFlow<MovieState> =
         MutableStateFlow(MovieState.Start)
     val movieState: StateFlow<MovieState> = _movieState
 
-    fun getMovies(page: Int = 1) {
+    fun getMovies(fistPage: Boolean = true) {
+        if (fistPage)
+            page = 0
+        if (page < totalPages)
+            page++
+
         viewModelScope.launch {
             preferencesDataStoreService.getFavoriteMovie().collect { idFavorite ->
                 _movieState.value = MovieState.Loading
                 movieRepository.loadNowPlaying(page).onSuccess {
+                    totalPages = it.totalPages
                     loadList(it.movies)
-                    _movieState.value = MovieState.Success(it, idFavorite)
+                    _movieState.value = MovieState.Success(movies.toList(), idFavorite)
                 }.onFailure { throwable ->
                     loadList(listOf())
+                    Log.wtf("ERRR", throwable.message.toString())
                     _movieState.value = MovieState.Error(trouble = throwable.message.toString())
                 }
             }

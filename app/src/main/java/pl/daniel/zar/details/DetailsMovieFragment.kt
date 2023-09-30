@@ -13,6 +13,7 @@ import com.squareup.picasso.Picasso
 import dagger.hilt.android.AndroidEntryPoint
 import pl.daniel.zar.R
 import pl.daniel.zar.databinding.FragmentDescriptionBinding
+import pl.daniel.zar.utils.RoundedTransformation
 
 @AndroidEntryPoint
 class DetailsMovieFragment : Fragment() {
@@ -62,9 +63,11 @@ class DetailsMovieFragment : Fragment() {
         }
     }
 
-    private fun loadPicture(image: String) {
+    private fun loadPicture(image: String?) {
         Picasso.get()
             .load(URL_IMAGE + image)
+            .transform(RoundedTransformation(50, 4))
+            .error(R.drawable.baseline_broken_image_24)
             .into(binding.ivMovie)
     }
 

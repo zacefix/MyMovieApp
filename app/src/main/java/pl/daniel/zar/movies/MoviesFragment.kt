@@ -8,6 +8,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.asLiveData
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import dagger.hilt.android.AndroidEntryPoint
 import pl.daniel.zar.base.BaseFragment
 import pl.daniel.zar.databinding.FragmentMoviesBinding
@@ -56,6 +57,22 @@ class MoviesFragment : BaseFragment() {
             viewModel.refreshMovies()
         }
 
+        binding.rvMovies.addOnScrollListener(object :
+            RecyclerView.OnScrollListener() {
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                super.onScrolled(recyclerView, dx, dy)
+
+                val layoutManager = recyclerView.layoutManager as LinearLayoutManager
+                val visibleItemCount = layoutManager.childCount
+                val totalItemCount = layoutManager.itemCount
+                val firstVisibleItemPosition = layoutManager.findFirstVisibleItemPosition()
+
+                if (visibleItemCount + firstVisibleItemPosition >= totalItemCount && firstVisibleItemPosition >= 0) {
+                    viewModel.getMovies(false)
+                }
+            }
+        })
+
     }
 
     private fun setupObservables() {
@@ -65,7 +82,7 @@ class MoviesFragment : BaseFragment() {
                 is MovieState.Loading -> showLoadingBar(true)
                 is MovieState.Success -> {
                     with(state) {
-                        movieContentsAdapter.setItems(content.movies, idFavorite)
+                        movieContentsAdapter.setItems(content, idFavorite)
                     }
                     showLoadingBar(false)
                 }
