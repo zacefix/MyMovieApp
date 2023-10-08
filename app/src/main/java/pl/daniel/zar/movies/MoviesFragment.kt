@@ -25,10 +25,8 @@ class MoviesFragment : BaseFragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-
         _binding = FragmentMoviesBinding.inflate(inflater, container, false)
         return binding.root
-
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -39,7 +37,7 @@ class MoviesFragment : BaseFragment() {
     }
 
     private fun setupAdapter() {
-        movieContentsAdapter = MovieContentsAdapter(requireContext()) {
+        movieContentsAdapter = MovieContentsAdapter() {
             findNavController().navigate(
                 MoviesFragmentDirections.actionFirstFragmentToSecondFragment(
                     it
@@ -50,8 +48,12 @@ class MoviesFragment : BaseFragment() {
         binding.rvMovies.layoutManager = LinearLayoutManager(context)
     }
 
+    override fun onStart() {
+        super.onStart()
+        viewModel.refreshMovies()
+    }
+
     private fun setup() {
-        viewModel.getMovies()
         binding.srlRefreshCarriers.setOnRefreshListener {
             binding.srlRefreshCarriers.isRefreshing = false
             viewModel.refreshMovies()
@@ -77,12 +79,12 @@ class MoviesFragment : BaseFragment() {
 
     private fun setupObservables() {
         setupAdapter()
-        viewModel.movieState.asLiveData().observe(viewLifecycleOwner) { state ->
+        viewModel.movieState.observe(viewLifecycleOwner) { state ->
             when (state) {
                 is MovieState.Loading -> showLoadingBar(true)
                 is MovieState.Success -> {
                     with(state) {
-                        movieContentsAdapter.setItems(content, idFavorite)
+                        movieContentsAdapter.submitList(content)
                     }
                     showLoadingBar(false)
                 }

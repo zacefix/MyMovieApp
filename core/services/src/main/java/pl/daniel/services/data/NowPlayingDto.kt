@@ -10,7 +10,7 @@ data class NowPlayingDto
     @JsonProperty("page")
     val page: Long,
     @JsonProperty("results")
-    val movies: List<Movie>,
+    val movies: List<MovieDto>,
     @JsonProperty("total_pages")
     val totalPages: Long,
     @JsonProperty("total_results")

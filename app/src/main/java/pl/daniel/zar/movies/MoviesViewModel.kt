@@ -1,8 +1,10 @@
 package pl.daniel.zar.movies
 
 import android.util.Log
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -11,6 +13,7 @@ import kotlinx.coroutines.launch
 import pl.daniel.datastore.PreferencesDataStoreService
 import pl.daniel.services.MovieRepository
 import pl.daniel.services.data.Movie
+import pl.daniel.services.data.parseToMovie
 import javax.inject.Inject
 
 @HiltViewModel
@@ -21,12 +24,12 @@ class MoviesViewModel @Inject constructor(
 
     var searchValue = MutableLiveData<String?>(null)
     var movies: MutableList<Movie> = mutableListOf()
-    var page: Long = 0
-    var totalPages: Long = 1
+    private var page: Long = 0
+    private var totalPages: Long = 1
 
     private val _movieState: MutableStateFlow<MovieState> =
         MutableStateFlow(MovieState.Start)
-    val movieState: StateFlow<MovieState> = _movieState
+    val movieState: LiveData<MovieState> = _movieState.asLiveData()
 
     fun getMovies(fistPage: Boolean = true) {
         if (fistPage)
@@ -39,8 +42,8 @@ class MoviesViewModel @Inject constructor(
                 _movieState.value = MovieState.Loading
                 movieRepository.loadNowPlaying(page).onSuccess {
                     totalPages = it.totalPages
-                    loadList(it.movies)
-                    _movieState.value = MovieState.Success(movies.toList(), idFavorite)
+                    loadList(it.movies.parseToMovie(idFavorite))
+                    _movieState.value = MovieState.Success(movies.toList())
                 }.onFailure { throwable ->
                     loadList(listOf())
                     Log.wtf("ERRR", throwable.message.toString())
